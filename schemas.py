@@ -16,7 +16,8 @@ class TaskCreate(TaskBase):
 
 class UserBase(BaseModel):
     username: str
-    email: str 
+    email: str
+    name: str 
     hashed_password: str
 
 class User(UserBase):
