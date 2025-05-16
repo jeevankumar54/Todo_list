@@ -1,5 +1,5 @@
 from datetime import timedelta
-from fastapi import FastAPI, Request, Depends, status, Form, Response
+from fastapi import FastAPI, Request, Depends, status, Form, Response, Path
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.encoders import jsonable_encoder
@@ -96,6 +96,10 @@ def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends(), db
     resp = RedirectResponse("/tasks", status_code=status.HTTP_302_FOUND)
     manager.set_cookie(resp,access_token)
     return resp
+
+@app.get("/tasks/delete/{id}", response_class=RedirectResponse)
+def delete_task(id: str = Path(...), db: Session = Depends(get_db), user: schemas.User = Depends(manager)):
+    return RedirectResponse("/tasks")
 
 @app.get("/register")
 def get_register(request: Request):
